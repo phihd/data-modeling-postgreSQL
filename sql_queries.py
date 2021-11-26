@@ -11,7 +11,9 @@ time_table_drop = "DROP table IF EXISTS time;"
 songplay_table_create = ("""
     CREATE TABLE IF NOT EXISTS songplays(
         songplay_id SERIAL PRIMARY KEY, 
-        start_time timestamp, user_id varchar, level varchar,
+        start_time timestamp, 
+        user_id varchar NOT NULL, 
+        level varchar NOT NULL,
         song_id varchar, artist_id varchar, session_id varchar,
         location varchar, user_agent varchar
     );
@@ -29,7 +31,7 @@ song_table_create = ("""
     CREATE TABLE IF NOT EXISTS songs(
         song_id varchar PRIMARY KEY, 
         title varchar, artist_id varchar, 
-        year int, duration int
+        year int, duration numeric
     );               
 """)
 
@@ -51,8 +53,8 @@ time_table_create = ("""
 # INSERT RECORDS
 
 songplay_table_insert = ("""
-    INSERT INTO songplays(start_time, user_id, level, song_id, artist_id, location, user_agent)
-    VALUES(%s, %s, %s, %s, %s, %s, %s)
+    INSERT INTO songplays(start_time, user_id, level, song_id, artist_id, location, user_agent, session_id)
+    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)
 """)
 
 user_table_insert = ("""
@@ -67,17 +69,17 @@ song_table_insert = ("""
     INSERT INTO songs(song_id, title, artist_id, year, duration)
     VALUES(%s, %s, %s, %s, %s)
     ON CONFLICT(song_id)
-    DO NOTHING
+    DO NOTHING           
 """)
 
 artist_table_insert = ("""
-    INSERT INTO artists(artist_id, name, location, latitude, longitude)
+    INSERT INTO artists(artist_id, name, location, longitude, latitude)
     VALUES(%s, %s, %s, %s, %s)
     ON CONFLICT(artist_id)
     DO UPDATE
         SET location = EXCLUDED.location,
-        latitude = EXCLUDED.latitude,
-        longitude = EXCLUDED.longitude
+            latitude = EXCLUDED.latitude,
+            longitude = EXCLUDED.longitude
 """)
 
 
