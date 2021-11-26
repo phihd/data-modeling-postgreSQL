@@ -5,6 +5,8 @@ The project aims to create a Postgres database with tables designed to optimize 
 
 At the end, the project sucessfully performs data modeling with Postgres and build an ETL pipeline using Python. In detail, fact and dimiension tables for a star schema are defined for a particular analytic focus, and an ETL pipeline that transfers data from files in two local directories into these tables in Postgres was built using Python and SQL.
 
+!(schema.png)
+
 ### Project Structure
 
   * `data/` -- Dataset.
